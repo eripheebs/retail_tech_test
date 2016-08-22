@@ -1,0 +1,23 @@
+{
+  "name": "retail_tech_test",
+  "description": "Tech test",
+  "main": "index.js",
+  "authors": [
+    "eripheebs"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.5.8"
+  }
+}
