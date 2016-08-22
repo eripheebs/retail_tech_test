@@ -18,7 +18,12 @@ describe('ItemLoggerFactory', function() {
   });
 
   it('can add item', function(){
-    ItemLoggerFactory.addItem(fakeItem);
+    ItemLoggerFactory.addItems(fakeItem);
     expect(ItemLoggerFactory.items).toEqual([fakeItem]);
+  });
+
+  it('can add item(s)', function(){
+    ItemLoggerFactory.addItems(fakeRetailData);
+    expect(ItemLoggerFactory.items).toEqual(fakeRetailData);
   });
 });

@@ -2,8 +2,8 @@ retailTest.factory('ItemLoggerFactory', function() {
 
   return {
     items: [],
-    addItem: function(item){
-      this.items.push(item);
+    addItems: function(items){
+      this.items = [].concat.apply(this.items, arguments);
     }
   }
 });
