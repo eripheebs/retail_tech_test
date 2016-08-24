@@ -1,14 +1,15 @@
 describe('RetailController', function(){
   beforeEach(module('retailTest'));
 
-  var ctrl, scope, ItemLoggerFactory;
+  var ctrl, scope, ItemLoggerFactory, VoucherFactory;
   const RANDOM_PRICE = (Math.random()*10 + 1);
   var fakeItem = {'name': 'Fake Name', 'price': RANDOM_PRICE};
 
-  beforeEach(inject(function($controller, $rootScope, _ItemLoggerFactory_){
+  beforeEach(inject(function($controller, $rootScope, _ItemLoggerFactory_, _VoucherFactory_){
     scope = $rootScope.$new;
     ctrl = $controller('RetailController', { $scope: scope });
     ItemLoggerFactory = _ItemLoggerFactory_;
+    VoucherFactory = _VoucherFactory_;
   }));
 
   it('starts with an empty shopping cart', function(){
@@ -91,6 +92,31 @@ describe('RetailController', function(){
       scope.removeProductFromCart(fakeItem);
       expect(scope.stock.items.length).toEqual(stockLength + 1);
       expect(scope.stockDisplay.items.length).toEqual(stockLength);
+    });
+  });
+
+  describe('#addVoucher', function(){
+    it('removes amount off total price', function(){
+      var item = {'name': 'Unique Item', 'price': 5};
+      scope.addProductToCart(item);
+      scope.applyVoucher('FIVE');
+      expect(scope.shoppingCartTotal).toEqual(0);
+    });
+
+    it('does not allow unapplicable vouchers e.g. TEN is only allowed when you spend over 50', function(){
+      expect(function(){
+        scope.applyVoucher('TEN')
+      }).toThrow('That voucher is not applicable.');
+    });
+
+    it('does not allow incorrect voucher codes', function(){
+      expect(function(){
+        scope.applyVoucher('WrongCode')
+      }).toThrow('The voucher code is incorrect.');
+    });
+
+    xit('does not allow the voucher without footwear item', function(){
+
     });
   });
 });
