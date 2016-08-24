@@ -4,13 +4,22 @@ describe('retailTest', function() {
   });
 
   it('should show a list of stock', function() {
-    var items = $$('#stockItems .item');
-    expect(items.first().getText()).toContain('Product name:');
-    expect(items.first().getText()).toContain('Price:');
+    var stockItems = $$('#stockItems .item');
+    expect(stockItems.first().getText()).toContain('Product name:');
+    expect(stockItems.first().getText()).toContain('Price:');
   });
 
-  xit('should allow you to add an item to a shopping cart', function(){
-    var items = $$('#stockItems .item');
-    items.first()
+  it('should not show a list of items in cart when cart is empty', function() {
+    var cartItems = $('#cartItems');
+    expect(cartItems.getText()).not.toContain('Price:');
+  });
+
+  it('should allow you to add an item to a shopping cart', function(){
+    var stockItems = $$('#stockItems .item .item-name');
+    var stockItemText = stockItems.first().getText()
+    element(by.css('.add-to-cart')).click();
+    var cartItems = $$('#cartItems .item .item-name');
+    var cartItemText = cartItems.first().getText();
+    expect(cartItemText).toEqual(stockItemText);
   });
 });

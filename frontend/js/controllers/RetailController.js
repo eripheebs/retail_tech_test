@@ -2,6 +2,10 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', functi
   $scope.shoppingCart = Object.create(ItemLoggerFactory);
   $scope.stock = Object.create(ItemLoggerFactory);
 
+  $scope.isCartEmpty = function(){
+    return ($scope.shoppingCart.items.length < 1) ? true : false
+  }
+
   $scope.addProductToCart = function(items){
     checkStock(items);
     addItems(items, $scope.shoppingCart);
@@ -49,11 +53,11 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', functi
   function checkLastItem(items){
     var checkTheseItems = [].concat.apply([], arguments);
     checkTheseItems.forEach(function(item){
-      if (lastItem(item, $scope.stock.items)) { logOutOfStockItem(item) }
+      if (islastItem(item, $scope.stock.items)) { logOutOfStockItem(item) }
     });
   }
 
-  function lastItem(item, stock){
+  function islastItem(item, stock){
     var itemCount = 0;
     for (var i = 0; i < stock.length; i++){
       if (item == stock[i]) { itemCount += 1 }

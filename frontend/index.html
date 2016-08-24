@@ -8,11 +8,22 @@
     <title>Retail Tech Test</title>
   </head>
   <body ng-controller="RetailController">
+    <div id="cartItems" ng-hide="isCartEmpty()">
+      <h3>Cart:</h3>
+      <ul ng-repeat="item in shoppingCart.items">
+        <li class="item">
+          <span class="item-name">Product name: {{item.name}}</span>
+          <span class="item-price">Price: £{{item.price}}</span>
+        </li>
+      </div>
+    </div>
     <div id="stockItems">
+      <h3>Stock:</h3>
       <ul ng-repeat="item in stock.items">
         <li class="item">
           <span class="item-name">Product name: {{item.name}}</span>
-          <span class="item-price">Price: {{item.price}}</span>
+          <span class="item-price">Price: £{{item.price}}</span>
+          <button class="add-to-cart" ng-click="addProductToCart(item)">Add to cart</button>
         </li>
       </div>
     </div>

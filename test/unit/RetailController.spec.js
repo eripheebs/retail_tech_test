@@ -78,4 +78,13 @@ describe('RetailController', function(){
       expect(scope.addTotal(scope.shoppingCart.items)).toEqual(0);
     });
   });
+
+  describe('#isCartEmpty', function(){
+    it('returns true if cart is empty', function(){
+      expect(scope.isCartEmpty()).toEqual(true);
+      var item = scope.stock.items[0];
+      scope.addProductToCart(item);
+      expect(scope.isCartEmpty()).toEqual(false);
+    })
+  })
 });
