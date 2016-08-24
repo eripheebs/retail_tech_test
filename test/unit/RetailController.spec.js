@@ -68,14 +68,11 @@ describe('RetailController', function(){
     });
   });
 
-  describe('#addTotal', function(){
-    it('adds up the total price of an Item Logger', function(){
-      var fakeItems = [fakeItem, fakeItem];
-      expect(scope.addTotal(fakeItems)).toEqual(RANDOM_PRICE + RANDOM_PRICE);
-    });
-
-    it('adds up the total price in the shopping cart', function(){
-      expect(scope.addTotal(scope.shoppingCart.items)).toEqual(0);
+  describe('shoppingCartTotal', function(){
+    it('returns the total price of an Item Logger', function(){
+      var item = scope.stock.items[0];
+      scope.addProductToCart(item);
+      expect(scope.shoppingCartTotal).toEqual(item.price);
     });
   });
 

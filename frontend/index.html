@@ -14,18 +14,22 @@
         <li class="item">
           <span class="item-name">Product name: {{item.name}}</span>
           <span class="item-price">Price: £{{item.price}}</span>
+          <button class="remove-from-cart" ng-click="removeProductFromCart(item)">Remove from cart</button>
         </li>
-      </div>
+      </ul>
+      <span id="total-price">Total Price: £{{shoppingCartTotal}}</span>
     </div>
     <div id="stockItems">
       <h3>Stock:</h3>
       <ul ng-repeat="item in stock.items">
         <li class="item">
-          <span class="item-name">Product name: {{item.name}}</span>
-          <span class="item-price">Price: £{{item.price}}</span>
-          <button class="add-to-cart" ng-click="addProductToCart(item)">Add to cart</button>
+          <div class="no-stock-{{item.no_stock}}">
+            <span class="item-name">Product name: {{item.name}}</span>
+            <span class="item-price">Price: £{{item.price}}</span>
+            <button class="add-to-cart" ng-click="addProductToCart(item)" ng-hide="item.no_stock">Add to cart</button>
+          </div>
         </li>
-      </div>
+      </ul>
     </div>
   </body>
 </html>

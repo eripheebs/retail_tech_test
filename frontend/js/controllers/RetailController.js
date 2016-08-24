@@ -1,6 +1,7 @@
 retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', function($scope, ItemLoggerFactory){
   $scope.shoppingCart = Object.create(ItemLoggerFactory);
   $scope.stock = Object.create(ItemLoggerFactory);
+  $scope.shoppingCartTotal = 0;
 
   $scope.isCartEmpty = function(){
     return ($scope.shoppingCart.items.length < 1) ? true : false
@@ -11,15 +12,17 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', functi
     addItems(items, $scope.shoppingCart);
     checkLastItem(items);
     deleteItems(items, $scope.stock);
+    updateTotalPrice($scope.shoppingCart.items);
   }
 
   $scope.removeProductFromCart = function(items){
     deleteItems(items, $scope.shoppingCart);
     removeOutOfStockLogItems(items);
     addItems(items, $scope.stock);
+    updateTotalPrice($scope.shoppingCart.items);
   }
 
-  $scope.addTotal = function(itemsArray){
+  function updateTotalPrice(itemsArray){
     return (itemsArray.length < 1) ? 0 : addPrices(itemsArray);
 
     function addPrices(itemsArray){
@@ -27,7 +30,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', functi
       itemsArray.forEach(function(item){
         total += item.price
       });
-      return total;
+      $scope.shoppingCartTotal = total;
     }
   }
 

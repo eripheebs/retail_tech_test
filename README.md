@@ -23,6 +23,7 @@
 ###### UX:
 13. make sure everything flows nicely
 14. add bootstrap
+15. add ng-cookies (^ this should be higher up)
 ######Nice to haves:
-15. add es6 polyfills e.g. array.includes method
-16. load scripts / controllers etc more neatly on index.html
+16. add es6 polyfills e.g. array.includes method
+17. load scripts / controllers etc more neatly on index.html
