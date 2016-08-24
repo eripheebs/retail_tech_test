@@ -19,7 +19,9 @@
 10. Make it so that when you add an item to a shopping cart you remove it from the stock!
 ###### Database:
 11. Then create the backend using node, express and mongodb because it doesnt have to be relational
-12. seed the database 
-######UX:
+12. seed the database
+###### UX:
 13. make sure everything flows nicely
 14. add bootstrap
+######Nice to haves:
+15. add es6 polyfills e.g. array.includes method
