@@ -17,32 +17,36 @@ describe('ItemLoggerFactory', function() {
     expect(ItemLoggerFactory.items).toEqual([]);
   });
 
-  it('can add item', function(){
-    ItemLoggerFactory.addItems(fakeItem);
-    expect(ItemLoggerFactory.items).toEqual([fakeItem]);
+  describe('#addItem', function(){
+    it('can add item', function(){
+      ItemLoggerFactory.addItems(fakeItem);
+      expect(ItemLoggerFactory.items).toEqual([fakeItem]);
+    });
+
+    it('can add item(s) as list of arguments', function(){
+      ItemLoggerFactory.addItems(fakeItem, fakeItem2);
+      expect(ItemLoggerFactory.items).toEqual(fakeRetailData);
+    });
+
+    it('can add item(s) as array', function(){
+      ItemLoggerFactory.addItems(fakeRetailData);
+      expect(ItemLoggerFactory.items).toEqual(fakeRetailData);
+    });
   });
 
-  it('can add item(s) as list of arguments', function(){
-    ItemLoggerFactory.addItems(fakeItem, fakeItem2);
-    expect(ItemLoggerFactory.items).toEqual(fakeRetailData);
-  });
+  describe('#deleteItem', function(){
+    it('can delete item', function(){
+      ItemLoggerFactory.addItems(fakeItem);
+      ItemLoggerFactory.deleteItems(fakeItem);
+      expect(ItemLoggerFactory.items).toEqual([]);
+    });
 
-  it('can add item(s) as array', function(){
-    ItemLoggerFactory.addItems(fakeRetailData);
-    expect(ItemLoggerFactory.items).toEqual(fakeRetailData);
-  });
-
-  it('can delete item', function(){
-    ItemLoggerFactory.addItems(fakeItem);
-    ItemLoggerFactory.deleteItems(fakeItem);
-    expect(ItemLoggerFactory.items).toEqual([]);
-  });
-
-  it('can delete item(s) both as array and passed as list of arguments', function(){
-    ItemLoggerFactory.addItems(fakeRetailData);
-    ItemLoggerFactory.deleteItems(fakeRetailData);
-    ItemLoggerFactory.addItems(fakeRetailData);
-    ItemLoggerFactory.deleteItems(fakeItem, fakeItem2);
-    expect(ItemLoggerFactory.items).toEqual([]);
+    it('can delete item(s) both as array and passed as list of arguments', function(){
+      ItemLoggerFactory.addItems(fakeRetailData);
+      ItemLoggerFactory.deleteItems(fakeRetailData);
+      ItemLoggerFactory.addItems(fakeRetailData);
+      ItemLoggerFactory.deleteItems(fakeItem, fakeItem2);
+      expect(ItemLoggerFactory.items).toEqual([]);
+    });
   });
 });
