@@ -1,6 +1,7 @@
 retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', function($scope, ItemLoggerFactory){
   $scope.shoppingCart = Object.create(ItemLoggerFactory);
   $scope.stock = Object.create(ItemLoggerFactory);
+  $scope.stockDisplay = Object.create(ItemLoggerFactory);
   $scope.shoppingCartTotal = 0;
 
   $scope.isCartEmpty = function(){
@@ -13,6 +14,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', functi
     checkLastItem(items);
     deleteItems(items, $scope.stock);
     updateTotalPrice($scope.shoppingCart.items);
+    updateStockDisplay();
   }
 
   $scope.removeProductFromCart = function(items){
@@ -20,6 +22,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', functi
     removeOutOfStockLogItems(items);
     addItems(items, $scope.stock);
     updateTotalPrice($scope.shoppingCart.items);
+    updateStockDisplay();
   }
 
   function updateTotalPrice(itemsArray){
@@ -82,12 +85,19 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', functi
     });
   }
 
+  function updateStockDisplay(){
+    $scope.stockDisplay.items = $scope.stock.items.filter(function(item, i, self) {
+      return self.indexOf(item) == i;
+    });
+  }
+
   const RANDOM_PRICE = (Math.random()*10 + 1);
   const RANDOM_PRICE_2 = (Math.random()*10 + 1);
   var fakeItem = {'name': 'Almond Toe Court Shoes, Patent Black', 'price': RANDOM_PRICE};
   var fakeItem2 = {'name': 'Fake Name 2', 'price': RANDOM_PRICE_2};
   var outOfStockItem = {'name': 'Out of stock', 'price': 2, 'no_stock': true};
-  var fakeRetailData = [fakeItem, fakeItem2, outOfStockItem];
+  var fakeRetailData = [fakeItem, fakeItem2, fakeItem2, outOfStockItem];
 
   addItems(fakeRetailData, $scope.stock);
+  updateStockDisplay();
 }]);

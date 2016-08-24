@@ -82,6 +82,15 @@ describe('RetailController', function(){
       var item = scope.stock.items[0];
       scope.addProductToCart(item);
       expect(scope.isCartEmpty()).toEqual(false);
-    })
-  })
+    });
+  });
+
+  describe('stockDisplay', function(){
+    it('returns stock as it will be displayed to user (no repeats)', function(){
+      var stockLength = scope.stock.items.length;
+      scope.removeProductFromCart(fakeItem);
+      expect(scope.stock.items.length).toEqual(stockLength + 1);
+      expect(scope.stockDisplay.items.length).toEqual(stockLength);
+    });
+  });
 });

@@ -10,7 +10,7 @@
   <body ng-controller="RetailController">
     <div id="cartItems" ng-hide="isCartEmpty()">
       <h3>Cart:</h3>
-      <ul ng-repeat="item in shoppingCart.items">
+      <ul ng-repeat="item in shoppingCart.items track by $index">
         <li class="item">
           <span class="item-name">Product name: {{item.name}}</span>
           <span class="item-price">Price: £{{item.price}}</span>
@@ -21,7 +21,7 @@
     </div>
     <div id="stockItems">
       <h3>Stock:</h3>
-      <ul ng-repeat="item in stock.items">
+      <ul ng-repeat="item in stockDisplay.items">
         <li class="item">
           <div class="no-stock-{{item.no_stock}}">
             <span class="item-name">Product name: {{item.name}}</span>
