@@ -15,19 +15,28 @@ describe('RetailController', function(){
     expect(scope.shoppingCart.items).toEqual([]);
   });
 
-  describe('#addItem', function(){
-    it('calls on shoppingCart methods to add item', function(){
-      spyOn(ItemLoggerFactory, 'addItems')
-      scope.addItems(fakeItem);
-      expect(ItemLoggerFactory.addItems).toHaveBeenCalledWith(fakeItem);
+  it('starts with stock (which is an item logger factory)', function(){
+    expect(Array.isArray(scope.stock.items)).toEqual(true);
+    expect(scope.stock.items.length > 1).toEqual(true);
+  });
+
+  describe('#addProductToCart', function(){
+    it('adds product to cart, minuses product from stock', function(){
+      var length = scope.stock.items.length;
+      var item = scope.stock.items[0];
+      scope.addProductToCart(item);
+      expect(scope.shoppingCart.items).toContain(item);
+      expect(scope.stock.items.length).toEqual(length - 1);
     });
   });
 
-  describe('#deleteItem', function(){
-    it('calls on shoppingCart methods to delete item', function(){
-      spyOn(ItemLoggerFactory, 'deleteItems')
-      scope.deleteItems(fakeItem);
-      expect(ItemLoggerFactory.deleteItems).toHaveBeenCalledWith(fakeItem);
+  describe('#removeProductToCart', function(){
+    it('removes product to cart, puts product back in stock', function(){
+      var item = scope.stock.items[0];
+      scope.addProductToCart(item);
+      scope.removeProductToCart(item);
+      expect(scope.shoppingCart.items).not.toContain(item);
+      expect(scope.shoppingCart.items.length).toEqual(0);
     });
   });
 
@@ -39,6 +48,13 @@ describe('RetailController', function(){
 
     it('adds up the total price in the shopping cart', function(){
       expect(scope.addTotal(scope.shoppingCart.items)).toEqual(0);
+    });
+  });
+
+  describe('checkStock', function(){
+    it('checks if an item is in stock', function(){
+      var outOfStockItem ={'name': 'Out of stock', 'price': 2, 'no_stock': true};
+      expect(scope.checkStock(outOfStockItem)).toEqual(true);
     });
   });
 });

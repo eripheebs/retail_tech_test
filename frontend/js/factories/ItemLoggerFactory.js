@@ -7,30 +7,24 @@ retailTest.factory('ItemLoggerFactory', function() {
     deleteItems: function(items){
       var self = this;
 
-      var checkIfIncluded = function(item, n){
-        if (!Array.isArray(arguments) && items == item) {
-          return true
-        } else if (item == arguments[n]) {
-          return true
-        } else if (n == items.length) {
-          return (item == arguments[n])
-        } else {
-          return checkIfIncluded(item, n+1)
+      var args = (Array.isArray(items)) ? items : arguments;
+
+      findAndDelete(args);
+
+      function findAndDelete(args){
+        for (var i = 0; i < args.length; i++){
+          deleteFromArray(args[i], self.items);
         }
       }
 
-       var thereIsStillItemIncluded = function(){
-         return !(count == self.items.length)
-       }
-
-       var count = 0;
-       self.items.forEach(function(item, index){
-         checkIfIncluded(item, 0) ? self.items.splice(index, 1) : count++
-       });
-
-       if (thereIsStillItemIncluded()) {
-         self.deleteItems(items)
-       }
+      function deleteFromArray(item, array){
+        for (var i = 0; i < array.length; i++){
+          if (array[i] == item) {
+            self.items.splice(i, 1);
+            break;
+          }
+        }
+      }
     }
   }
 });

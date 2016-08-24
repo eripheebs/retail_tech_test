@@ -48,5 +48,11 @@ describe('ItemLoggerFactory', function() {
       ItemLoggerFactory.deleteItems(fakeItem, fakeItem2);
       expect(ItemLoggerFactory.items).toEqual([]);
     });
+
+    it('will only delete one item if there is the same item twice', function(){
+      ItemLoggerFactory.addItems(fakeItem, fakeItem);
+      ItemLoggerFactory.deleteItems(fakeItem);
+      expect(ItemLoggerFactory.items).toEqual([fakeItem]);
+    });
   });
 });
