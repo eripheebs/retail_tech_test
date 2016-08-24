@@ -4,7 +4,8 @@
   "description": "Tech test",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "start": "cd frontend && ../node_modules/http-server/bin/http-server",
+    "webdriver-manager": "./node_modules/protractor/bin/webdriver-manager"
   },
   "author": "eripheebs",
   "license": "ISC",
@@ -13,6 +14,10 @@
     "jasmine-core": "^2.4.1",
     "karma": "^1.2.0",
     "karma-chrome-launcher": "^2.0.0",
-    "karma-jasmine": "^1.0.2"
+    "karma-jasmine": "^1.0.2",
+    "protractor": "^4.0.3"
+  },
+  "dependencies": {
+    "http-server": "^0.9.0"
   }
 }

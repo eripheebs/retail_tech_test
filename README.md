@@ -25,3 +25,4 @@
 14. add bootstrap
 ######Nice to haves:
 15. add es6 polyfills e.g. array.includes method
+16. load scripts / controllers etc more neatly on index.html
