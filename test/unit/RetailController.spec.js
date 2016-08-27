@@ -1,16 +1,43 @@
 describe('RetailController', function(){
   beforeEach(module('retailTest'));
 
-  var ctrl, scope, ItemLoggerFactory, VoucherFactory;
-  const RANDOM_PRICE = (Math.random()*10 + 1);
-  var fakeItem = {'name': 'Fake Name', 'price': RANDOM_PRICE};
+  var ctrl, scope, ItemLoggerFactory, VoucherFactory, GetStockService, ItemFactory, fakeItem, fakeItem2, outOfStockItem;
 
-  beforeEach(inject(function($controller, $rootScope, _ItemLoggerFactory_, _VoucherFactory_, _GetStockService_){
+
+  beforeEach(inject(function($controller, $rootScope, _ItemLoggerFactory_, _VoucherFactory_, _GetStockService_, _ItemFactory_, $q){
     scope = $rootScope.$new;
     ctrl = $controller('RetailController', { $scope: scope });
-    GetStockService = _GetStockService_;
     ItemLoggerFactory = _ItemLoggerFactory_;
     VoucherFactory = _VoucherFactory_;
+    ItemFactory = _ItemFactory_;
+    GetStockService = _GetStockService_;
+
+    const RANDOM_PRICE = (Math.random()*10 + 1);
+    const RANDOM_PRICE_2 = (Math.random()*10 + 1);
+    fakeItem = Object.create(ItemFactory);
+    fakeItem.init({'name': 'Fake Name 2', 'category': 'Footwear', 'price': RANDOM_PRICE, 'stock': 2});
+    fakeItem2 = Object.create(ItemFactory);
+    fakeItem2.init({'name': 'Fake Name 2', 'category': 'Footwear', 'price': RANDOM_PRICE_2, 'stock': 2});
+    outOfStockItem = Object.create(ItemFactory);
+    outOfStockItem.init({'name': 'Out of stock', 'category': 'Another category', 'price': RANDOM_PRICE, 'stock': 0});
+    fakeRetailData = [fakeItem, fakeItem, fakeItem2, outOfStockItem];
+
+    spyOn(GetStockService, 'getStock').and.callFake(function(){
+      return {
+        then: function () {
+            return fakeRetailData;
+        }
+      };
+    });
+
+    mockFakeDataFromAPI = function(){
+      fakeDataFromApi = [fakeItem, fakeItem2, outOfStockItem];
+      fakeDataFromApi.forEach(function(item, index){
+        scope.removeProductFromCart(item)
+      });
+    }
+
+    mockFakeDataFromAPI();
   }));
 
   it('starts with an empty shopping cart', function(){
@@ -24,7 +51,6 @@ describe('RetailController', function(){
 
   describe('#getStockData', function(){
     it('calls on service get stock method', function(){
-      spyOn(GetStockService, 'getStock').and.callThrough();
       scope.getStockData();
       expect(GetStockService.getStock).toHaveBeenCalled();
     });
@@ -98,7 +124,7 @@ describe('RetailController', function(){
   describe('stockDisplay', function(){
     it('returns stock as it will be displayed to user (no repeats)', function(){
       var stockLength = scope.stock.items.length;
-      scope.removeProductFromCart(fakeItem);
+      scope.removeProductFromCart(fakeItem2);
       expect(scope.stock.items.length).toEqual(stockLength + 1);
       expect(scope.stockDisplay.items.length).toEqual(stockLength);
     });

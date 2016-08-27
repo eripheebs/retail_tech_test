@@ -7,14 +7,16 @@ retailTest.service('GetStockService', ['$http', 'ItemFactory', function($http, I
   }
 
   function handleResponseFromAPI(response){
-    var stock = response.data.stock;
+    var stock = response.data;
     var parsedStock = [];
     stock.forEach(function(item){
       if (item.stock == 0) {
-        createNewItem(item);
+        var newItem = createNewItem(item);
+        parsedStock.push(newItem);
       } else {
+        var newItem = createNewItem(item);
         for (var i = 0; i < item.stock; i++){
-          createNewItem(item);
+          parsedStock.push(newItem);
         }
       }
     });
@@ -24,7 +26,7 @@ retailTest.service('GetStockService', ['$http', 'ItemFactory', function($http, I
     function createNewItem(item){
       var newItem = Object.create(ItemFactory);
       newItem.init(item);
-      parsedStock.push(newItem);
+      return newItem;
     }
   }
 

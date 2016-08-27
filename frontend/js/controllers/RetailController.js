@@ -19,8 +19,11 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
     .then(updateStock)
   }
 
+  $scope.getStockData();
+
   function updateStock(retailData){
-    addItems(retalData, $scope.stock);
+    addItems(retailData, $scope.stock);
+    updateStockDisplay();
   }
 
   $scope.isCartEmpty = function(){
@@ -42,7 +45,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
 
   $scope.removeProductFromCart = function(items){
     deleteItems(items, $scope.shoppingCart);
-    removeOutOfStockLogItems(items);
+    reverseOutOfStockLabel(items);
     addItems(items, $scope.stock);
     updateTotalPrice($scope.shoppingCart.items);
     updateStockDisplay();
@@ -136,12 +139,12 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
     }
   }
 
-  function removeOutOfStockLogItems(items){
+  function reverseOutOfStockLabel(items){
     var removeTheseItems = [].concat.apply([], arguments);
     removeTheseItems.forEach(function(item){
-      item['no_stock'] = true;
-      deleteItems(item, $scope.stock);
-      item['no_stock'] = false;
+      if (item['no_stock'] == true){
+        item['no_stock'] = false;
+      }
     });
   }
 
@@ -150,14 +153,4 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
       return self.indexOf(item) == i;
     });
   }
-
-  const RANDOM_PRICE = (Math.random()*10 + 1);
-  const RANDOM_PRICE_2 = (Math.random()*10 + 1);
-  var fakeItem = {'name': 'Almond Toe Court Shoes, Patent Black', 'price': RANDOM_PRICE};
-  var fakeItem2 = {'name': 'Fake Name 2', 'price': RANDOM_PRICE_2};
-  var outOfStockItem = {'name': 'Out of stock', 'price': 2, 'no_stock': true};
-  var fakeRetailData = [fakeItem, fakeItem2, fakeItem2, outOfStockItem];
-
-  addItems(fakeRetailData, $scope.stock);
-  updateStockDisplay();
 }]);
