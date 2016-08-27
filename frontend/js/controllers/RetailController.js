@@ -1,4 +1,4 @@
-retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'VoucherFactory', function($scope, ItemLoggerFactory, VoucherFactory){
+retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'VoucherFactory', 'GetStockService', function($scope, ItemLoggerFactory, VoucherFactory, GetStockService){
   $scope.shoppingCart = Object.create(ItemLoggerFactory);
   $scope.stock = Object.create(ItemLoggerFactory);
   $scope.stockDisplay = Object.create(ItemLoggerFactory);
@@ -13,6 +13,15 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
   var fifteenVoucher = Object.create(VoucherFactory);
   fifteenVoucher.init({'code': 'FIFTEEN', 'discount': 15, 'minimumSpend': 75, 'conditionalItem': 'Footwear'});
   const vouchers = [fiverVoucher, tennerVoucher, fifteenVoucher];
+
+  $scope.getStockData = function(){
+    GetStockService.getStock()
+    .then(updateStock)
+  }
+
+  function updateStock(retailData){
+    addItems(retalData, $scope.stock);
+  }
 
   $scope.isCartEmpty = function(){
     return ($scope.shoppingCart.items.length < 1) ? true : false

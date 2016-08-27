@@ -5,9 +5,10 @@ describe('RetailController', function(){
   const RANDOM_PRICE = (Math.random()*10 + 1);
   var fakeItem = {'name': 'Fake Name', 'price': RANDOM_PRICE};
 
-  beforeEach(inject(function($controller, $rootScope, _ItemLoggerFactory_, _VoucherFactory_){
+  beforeEach(inject(function($controller, $rootScope, _ItemLoggerFactory_, _VoucherFactory_, _GetStockService_){
     scope = $rootScope.$new;
     ctrl = $controller('RetailController', { $scope: scope });
+    GetStockService = _GetStockService_;
     ItemLoggerFactory = _ItemLoggerFactory_;
     VoucherFactory = _VoucherFactory_;
   }));
@@ -19,6 +20,14 @@ describe('RetailController', function(){
   it('starts with stock (which is an item logger factory)', function(){
     expect(Array.isArray(scope.stock.items)).toEqual(true);
     expect(scope.stock.items.length > 1).toEqual(true);
+  });
+
+  describe('#getStockData', function(){
+    it('calls on service get stock method', function(){
+      spyOn(GetStockService, 'getStock').and.callThrough();
+      scope.getStockData();
+      expect(GetStockService.getStock).toHaveBeenCalled();
+    });
   });
 
   describe('#addProductToCart', function(){
