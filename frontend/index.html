@@ -5,6 +5,7 @@
     <script src="js/app.js"></script>
     <script src="js/controllers/RetailController.js"></script>
     <script src="js/factories/ItemLoggerFactory.js"></script>
+    <script src="js/factories/VoucherFactory.js"></script>
     <title>Retail Tech Test</title>
   </head>
   <body ng-controller="RetailController">
@@ -17,7 +18,12 @@
           <button class="remove-from-cart" ng-click="removeProductFromCart(item)">Remove from cart</button>
         </li>
       </ul>
-      <span id="total-price">Total Price: £{{shoppingCartTotal}}</span>
+      <div id="voucher" ng-hide="voucherApplied()">
+        <input id="voucher-input" type="text" placeholder="Enter voucher here" ng-model="voucherCode"></input>
+        <button id="voucher-submit" ng-click="applyVoucher(voucherCode)">Add Voucher</button>
+      </div>
+      <div id="total-price">Total Price: £{{shoppingCartTotal}}</div>
+      <span id="voucher-message">{{voucherMessage}}</span>
     </div>
     <div id="stockItems">
       <h3>Stock:</h3>

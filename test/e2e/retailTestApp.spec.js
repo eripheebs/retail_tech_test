@@ -42,4 +42,49 @@ describe('retailTest', function() {
     var noStockItem = $('.no-stock-true .add-to-cart');
     expect(noStockItem.getText()).not.toContain('Add to cart');
   });
+
+  describe('Applying vouchers', function(){
+    it('should be able to apply a voucher', function(){
+      element(by.css('.add-to-cart')).click();
+      element(by.css('.add-to-cart')).click();
+      element(by.css('.add-to-cart')).click()
+      var totalPrice = parseInt($('#total-price').evaluate('shoppingCartTotal'));
+      var voucherInput = element(by.css('#voucher-input'));
+      voucherInput.sendKeys('FIVE');
+      element(by.css('#voucher-submit')).click();
+      var newPrice = parseInt($('#total-price').evaluate('shoppingCartTotal'));
+      var confirmationMessage = $('#voucher-message').getText();
+      expect(newPrice).toEqual(totalPrice - 5);
+      expect(confirmationMessage).toEqual('Your voucher has been applied.');
+    });
+
+    it('should hide voucher form if a voucher was applied', function(){
+      element(by.css('.add-to-cart')).click();
+      element(by.css('.add-to-cart')).click();
+      element(by.css('.add-to-cart')).click();
+      var voucherInput = element(by.css('#voucher-input'));
+      voucherInput.sendKeys('FIVE');
+      element(by.css('#voucher-submit')).click();
+      var voucherForm = $('#voucher');
+      expect(voucherForm.getText()).not.toContain('Add Voucher');
+    });
+
+    it('should show error if voucher unapplicable', function(){
+      element(by.css('.add-to-cart')).click();
+      var voucherInput = element(by.css('#voucher-input'));
+      voucherInput.sendKeys('FIFTEEN');
+      element(by.css('#voucher-submit')).click();
+      var errorMessage = $('#voucher-message').getText();
+      expect(errorMessage).toEqual('That voucher is not applicable.');
+    });
+
+    it('should show error if voucher incorrect', function(){
+      element(by.css('.add-to-cart')).click();
+      var voucherInput = element(by.css('#voucher-input'));
+      voucherInput.sendKeys('BADCODE');
+      element(by.css('#voucher-submit')).click();
+      var errorMessage = $('#voucher-message').getText();
+      expect(errorMessage).toEqual('The voucher code is incorrect.');
+    });
+  });
 });

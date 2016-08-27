@@ -110,6 +110,15 @@ describe('RetailController', function(){
     });
 
     it('does not allow incorrect voucher codes', function(){
+      var item = {'name': 'Unique Item', 'price': 10};
+      scope.addProductToCart(item);
+      scope.applyVoucher('FIVE');
+      expect(function(){
+        scope.applyVoucher('FIVE')
+      }).toThrow('You have already applied a voucher.');
+    });
+
+    it('does not allow vouchers twice', function(){
       expect(function(){
         scope.applyVoucher('WrongCode')
       }).toThrow('The voucher code is incorrect.');

@@ -4,6 +4,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
   $scope.stockDisplay = Object.create(ItemLoggerFactory);
   $scope.shoppingCartTotal = 0;
   $scope.discount = 0;
+  $scope.voucherMessage = '';
 
   var fiverVoucher = Object.create(VoucherFactory);
   fiverVoucher.init({'code': 'FIVE', 'discount': 5, 'minimumSpend': 5});
@@ -15,6 +16,10 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
 
   $scope.isCartEmpty = function(){
     return ($scope.shoppingCart.items.length < 1) ? true : false
+  }
+
+  $scope.voucherApplied = function(){
+    return ($scope.discount > 0);
   }
 
   $scope.addProductToCart = function(items){
@@ -37,12 +42,16 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
   $scope.applyVoucher = function(voucherCode){
     var voucher = findVoucher(voucherCode);
     if (notApplicable(voucher)){
+      $scope.voucherMessage = 'That voucher is not applicable.';
       throw 'That voucher is not applicable.';
+    } else if ($scope.voucherApplied()){
+      throw 'You have already applied a voucher.';
     } else {
       applyDiscount(voucher);
     }
 
     function applyDiscount(voucher){
+      $scope.voucherMessage = 'Your voucher has been applied.'
       $scope.discount = voucher.discount;
       $scope.shoppingCartTotal = $scope.shoppingCartTotal - $scope.discount;
     }
@@ -59,6 +68,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
         if (vouchers[i].code == voucherCode) { voucher = vouchers[i] }
       }
       if (!voucher){
+        $scope.voucherMessage = 'The voucher code is incorrect.';
         throw 'The voucher code is incorrect.';
       }
       return voucher;
@@ -74,6 +84,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
         total += item.price
       });
       $scope.shoppingCartTotal = total;
+      $scope.discount = 0;
     }
   }
 
