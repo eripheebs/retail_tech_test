@@ -45,8 +45,6 @@ describe('retailTest', function() {
 
   describe('Applying vouchers', function(){
     it('should be able to apply a voucher', function(){
-      element(by.css('.add-to-cart')).click();
-      element(by.css('.add-to-cart')).click();
       element(by.css('.add-to-cart')).click()
       var totalPrice = parseInt($('#total-price').evaluate('shoppingCartTotal'));
       var voucherInput = element(by.css('#voucher-input'));
@@ -70,7 +68,7 @@ describe('retailTest', function() {
     });
 
     it('should show error if voucher unapplicable', function(){
-      element(by.css('.add-to-cart')).click();
+      element.all(by.css('.add-to-cart')).get(1).click();
       var voucherInput = element(by.css('#voucher-input'));
       voucherInput.sendKeys('FIFTEEN');
       element(by.css('#voucher-submit')).click();

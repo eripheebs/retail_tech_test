@@ -17,9 +17,9 @@ describe('RetailController', function(){
     fakeItem = Object.create(ItemFactory);
     fakeItem.init({'name': 'Fake Name 2', 'category': 'Footwear', 'price': RANDOM_PRICE, 'stock': 2});
     fakeItem2 = Object.create(ItemFactory);
-    fakeItem2.init({'name': 'Fake Name 2', 'category': 'Footwear', 'price': RANDOM_PRICE_2, 'stock': 2});
+    fakeItem2.init({'name': 'Fake Name 2', 'category': 'Blah', 'price': 76, 'stock': 2});
     outOfStockItem = Object.create(ItemFactory);
-    outOfStockItem.init({'name': 'Out of stock', 'category': 'Another category', 'price': RANDOM_PRICE, 'stock': 0});
+    outOfStockItem.init({'name': 'Out of stock', 'category': 'Another category', 'price': RANDOM_PRICE_2, 'stock': 0});
     fakeRetailData = [fakeItem, fakeItem, fakeItem2, outOfStockItem];
 
     spyOn(GetStockService, 'getStock').and.callFake(function(){
@@ -159,8 +159,11 @@ describe('RetailController', function(){
       }).toThrow('The voucher code is incorrect.');
     });
 
-    xit('does not allow the voucher without footwear item', function(){
-
+    it('does not allow the FIFTEEN voucher without footwear item', function(){
+      scope.addProductToCart(fakeItem2);
+      expect(function(){
+        scope.applyVoucher('FIFTEEN')
+      }).toThrow('Footwear must be added to use this voucher.');
     });
   });
 });

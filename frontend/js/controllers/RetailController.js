@@ -71,6 +71,21 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
     function notApplicable(voucher){
       if ($scope.shoppingCartTotal < voucher.minimumSpend){
         return true;
+      } else if (!!voucher.conditionalItem) {
+        hasConditionalItem(voucher);
+      }
+
+      function hasConditionalItem(voucher){
+        $scope.shoppingCart.items.forEach(function(item){
+          if (categoryMatch(item, voucher.conditionalItem)){
+            $scope.voucherMessage = voucher.conditionalItem + ' must be added to use this voucher.';
+            throw voucher.conditionalItem + ' must be added to use this voucher.';
+          }
+        });
+      }
+
+      function categoryMatch(item, voucherCategory){
+        return !(item.category.replace(voucherCategory, '') == item)
       }
     }
 
