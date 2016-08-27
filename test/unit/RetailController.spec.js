@@ -3,7 +3,6 @@ describe('RetailController', function(){
 
   var ctrl, scope, ItemLoggerFactory, VoucherFactory, GetStockService, ItemFactory, fakeItem, fakeItem2, outOfStockItem;
 
-
   beforeEach(inject(function($controller, $rootScope, _ItemLoggerFactory_, _VoucherFactory_, _GetStockService_, _ItemFactory_, $q){
     scope = $rootScope.$new;
     ctrl = $controller('RetailController', { $scope: scope });
@@ -15,9 +14,9 @@ describe('RetailController', function(){
     const RANDOM_PRICE = (Math.random()*10 + 1);
     const RANDOM_PRICE_2 = (Math.random()*10 + 1);
     fakeItem = Object.create(ItemFactory);
-    fakeItem.init({'name': 'Fake Name 2', 'category': 'Footwear', 'price': RANDOM_PRICE, 'stock': 2});
+    fakeItem.init({'name': 'Fake Name', 'category': 'Footwear', 'price': RANDOM_PRICE, 'stock': 2});
     fakeItem2 = Object.create(ItemFactory);
-    fakeItem2.init({'name': 'Fake Name 2', 'category': 'Blah', 'price': 76, 'stock': 2});
+    fakeItem2.init({'name': 'Fake Name 2', 'category': 'Blah', 'price': 76, 'stock': 1});
     outOfStockItem = Object.create(ItemFactory);
     outOfStockItem.init({'name': 'Out of stock', 'category': 'Another category', 'price': RANDOM_PRICE_2, 'stock': 0});
     fakeRetailData = [fakeItem, fakeItem, fakeItem2, outOfStockItem];
@@ -31,9 +30,9 @@ describe('RetailController', function(){
     });
 
     mockFakeDataFromAPI = function(){
-      fakeDataFromApi = [fakeItem, fakeItem2, outOfStockItem];
+      fakeDataFromApi = [fakeItem, fakeItem, fakeItem2, outOfStockItem];
       fakeDataFromApi.forEach(function(item, index){
-        scope.removeProductFromCart(item)
+        scope.stock.addItems(item)
       });
     }
 
@@ -87,28 +86,27 @@ describe('RetailController', function(){
 
   describe('#removeProductFromCart', function(){
     it('removes product from cart, puts product back in stock', function(){
-      var item = scope.stock.items[0];
-      scope.addProductToCart(item);
-      scope.removeProductFromCart(item);
+      var originalLength = scope.shoppingCart.items.length;
+      scope.addProductToCart(fakeItem2);
+      scope.removeProductFromCart(fakeItem2);
       expect(scope.shoppingCart.items).not.toContain(item);
-      expect(scope.shoppingCart.items.length).toEqual(0);
+      expect(scope.shoppingCart.items.length).toEqual(originalLength);
     });
 
     it('when putting back an item which was the last one in stock, removes the no_stock log item from stock', function(){
-      var uniqueItem = scope.stock.items[0];
-      scope.addProductToCart(uniqueItem);
-      expect(uniqueItem.no_stock).toEqual(true);
-      scope.removeProductFromCart(uniqueItem);
-      expect(uniqueItem.no_stock).not.toEqual(true);
-      expect(scope.stock.items).toContain(uniqueItem);
+      scope.addProductToCart(fakeItem2);
+      expect(fakeItem2.no_stock).toEqual(true);
+      scope.removeProductFromCart(fakeItem2);
+      expect(fakeItem2.no_stock).not.toEqual(true);
+      expect(scope.stock.items).toContain(fakeItem2);
     });
   });
 
   describe('shoppingCartTotal', function(){
     it('returns the total price of an Item Logger', function(){
-      var item = scope.stock.items[0];
-      scope.addProductToCart(item);
-      expect(scope.shoppingCartTotal).toEqual(item.price);
+      scope.addProductToCart(fakeItem2);
+
+      expect(scope.shoppingCartTotal).toEqual(fakeItem2.price);
     });
   });
 
@@ -124,9 +122,19 @@ describe('RetailController', function(){
   describe('stockDisplay', function(){
     it('returns stock as it will be displayed to user (no repeats)', function(){
       var stockLength = scope.stock.items.length;
-      scope.removeProductFromCart(fakeItem2);
+      scope.removeProductFromCart(fakeItem);
       expect(scope.stock.items.length).toEqual(stockLength + 1);
-      expect(scope.stockDisplay.items.length).toEqual(stockLength);
+      expect(scope.stockDisplay.items.length).toEqual(stockLength - 1);
+    });
+  });
+
+  describe('cartDisplay', function(){
+    it('returns shopping cart as it will be displayed to user (no repeats)', function(){
+      scope.addProductToCart(fakeItem);
+      var cartLength = scope.shoppingCart.items.length;
+      scope.addProductToCart(fakeItem);
+      expect(scope.shoppingCart.items.length).toEqual(cartLength + 1);
+      expect(scope.cartDisplay.items.length).toEqual(cartLength);
     });
   });
 

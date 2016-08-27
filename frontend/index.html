@@ -2,6 +2,7 @@
 <html lang="en" ng-app="retailTest">
   <head>
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers/RetailController.js"></script>
     <script src="js/factories/ItemLoggerFactory.js"></script>
@@ -13,7 +14,7 @@
   <body ng-controller="RetailController">
     <div id="cartItems" ng-hide="isCartEmpty()">
       <h3>Cart:</h3>
-      <ul ng-repeat="item in shoppingCart.items track by $index">
+      <ul ng-repeat="item in cartDisplay.items track by $index">
         <li class="item">
           <span class="item-name">Product name: {{item.name}}</span>
           <span class="item-price">Price: £{{item.price}}</span>

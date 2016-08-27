@@ -2,6 +2,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
   $scope.shoppingCart = Object.create(ItemLoggerFactory);
   $scope.stock = Object.create(ItemLoggerFactory);
   $scope.stockDisplay = Object.create(ItemLoggerFactory);
+  $scope.cartDisplay = Object.create(ItemLoggerFactory);
   $scope.shoppingCartTotal = 0;
   $scope.discount = 0;
   $scope.voucherMessage = '';
@@ -38,17 +39,28 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
     checkStock(items);
     addItems(items, $scope.shoppingCart);
     checkLastItem(items);
-    deleteItems(items, $scope.stock);
-    updateTotalPrice($scope.shoppingCart.items);
-    updateStockDisplay();
+    deleteNonLastItems(items)
+    updateInformation();
   }
 
   $scope.removeProductFromCart = function(items){
     deleteItems(items, $scope.shoppingCart);
     reverseOutOfStockLabel(items);
     addItems(items, $scope.stock);
+    updateInformation();
+  }
+
+  function deleteNonLastItems(args){
+    var items = [].concat.apply([], arguments);
+    items.forEach(function(item){
+      if (!isOutOfStock(item)){ deleteItems(item, $scope.stock) }
+    });
+  }
+
+  function updateInformation(){
     updateTotalPrice($scope.shoppingCart.items);
     updateStockDisplay();
+    updateCartDisplay();
   }
 
   $scope.applyVoucher = function(voucherCode){
@@ -150,14 +162,17 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
 
     function logOutOfStockItem(item){
       item['no_stock'] = true;
-      addItems(item, $scope.stock);
     }
+  }
+
+  function isOutOfStock(item){
+    return !!(item['no_stock'] == true);
   }
 
   function reverseOutOfStockLabel(items){
     var removeTheseItems = [].concat.apply([], arguments);
     removeTheseItems.forEach(function(item){
-      if (item['no_stock'] == true){
+      if (isOutOfStock(item)){
         item['no_stock'] = false;
       }
     });
@@ -165,6 +180,12 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
 
   function updateStockDisplay(){
     $scope.stockDisplay.items = $scope.stock.items.filter(function(item, i, self) {
+      return self.indexOf(item) == i;
+    });
+  }
+
+  function updateCartDisplay(){
+    $scope.cartDisplay.items = $scope.shoppingCart.items.filter(function(item, i, self) {
       return self.indexOf(item) == i;
     });
   }

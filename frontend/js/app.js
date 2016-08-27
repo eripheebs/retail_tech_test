@@ -1,1 +1,1 @@
-var retailTest = angular.module('retailTest', []);
+var retailTest = angular.module('retailTest', ['ngCookies']);
