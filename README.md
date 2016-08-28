@@ -4,7 +4,7 @@
 2. File Structure: [here](#filestructure).
 2. Explanation of my approach: [here](#explanation).
 
-## <a name=“how”>How</a> to run the app:
+## <a id=“how”>How</a> to run the app:
 Clone it:
 ```
 $ git clone https://github.com/eripheebs/retail_tech_test.git
@@ -56,7 +56,7 @@ $ npm run test-integraton
 
 -(The voucher codes are: FIVE, TEN, FIFTEEN)
 
-##<a name=“filestructure”>File</a> structure:
+## <a id=“filestructure”>File</a> structure:
 ```
 .
 +-- backend
@@ -99,7 +99,7 @@ $ npm run test-integraton
 +-- README.md
 ```
 
-## <a name=“explanation”>Explanation</a> of my approach
+## <a id=“explanation”>Explanation</a> of my approach
 
 - I decided to build a MEAN stack app because I thought the majority of the user stories would be well-addressed with an AngularJS frontend which deals with the shopping cart. So I began by stubbing out the backend API which I built towards the end.
 - I built everything test-first, using karma for the frontend unit testing, then protractor for integration testing, and mocha for the backend.
