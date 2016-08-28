@@ -1,8 +1,8 @@
 #Retail Tech Test
 ####Sections:
-1. [How to run the app](#how).
-2. [File Structure](#filestructure).
-2. [Explanation of my approach](#explanation).
+1. How to run the app: [here](#how).
+2. File Structure: [here](#filestructure).
+2. Explanation of my approach: [here](#explanation).
 
 ## <a name=“how”>How</a> to run the app:
 Clone it:
