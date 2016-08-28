@@ -1,4 +1,10 @@
-## How to run the app:
+#Retail Tech Test
+####Sections:
+1. [How to run the app](#how).
+2. [File Structure](#filestructure).
+2. [Explanation of my approach](#explanation).
+
+## <a name=“how”>How</a> to run the app:
 Clone it:
 ```
 $ git clone https://github.com/eripheebs/retail_tech_test.git
@@ -8,7 +14,6 @@ Install dependencies:
 ```
 $ bower install
 $ npm install
-
 ```
 Run the backend:
 ```
@@ -27,7 +32,6 @@ Install dependencies:
 ```
 $ bower install
 $ npm install
-
 ```
 Run frontend Karma tests:
 ```
@@ -52,7 +56,7 @@ $ npm run test-integraton
 
 -(The voucher codes are: FIVE, TEN, FIFTEEN)
 
-##File structure:
+##<a name=“filestructure”>File</a> structure:
 ```
 .
 +-- backend
@@ -95,7 +99,7 @@ $ npm run test-integraton
 +-- README.md
 ```
 
-## Explanation of my approach
+## <a name=“explanation”>Explanation</a> of my approach
 
 - I decided to build a MEAN stack app because I thought the majority of the user stories would be well-addressed with an AngularJS frontend which deals with the shopping cart. So I began by stubbing out the backend API which I built towards the end.
 - I built everything test-first, using karma for the frontend unit testing, then protractor for integration testing, and mocha for the backend.
