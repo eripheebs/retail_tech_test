@@ -50,6 +50,14 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
     updateInformation();
   }
 
+  function addItems(items, itemLogger){
+    itemLogger.addItems(items);
+  }
+
+  function deleteItems(items, itemLogger){
+    itemLogger.deleteItems(items);
+  }
+
   function deleteNonLastItems(args){
     var items = [].concat.apply([], arguments);
     items.forEach(function(item){
@@ -138,14 +146,6 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
     }
   }
 
-  function addItems(items, itemLogger){
-    itemLogger.addItems(items);
-  }
-
-  function deleteItems(items, itemLogger){
-    itemLogger.deleteItems(items);
-  }
-
   function checkLastItem(items){
     var checkTheseItems = [].concat.apply([], arguments);
     checkTheseItems.forEach(function(item){
@@ -185,8 +185,24 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
   }
 
   function updateCartDisplay(){
-    $scope.cartDisplay.items = $scope.shoppingCart.items.filter(function(item, i, self) {
+    refreshNumberInCart();
+    $scope.cartDisplay.items = $scope.shoppingCart.items.filter(function(item, i, self){
       return self.indexOf(item) == i;
+    });
+    getNumberInCart();
+  }
+
+  function getNumberInCart(){
+    $scope.cartDisplay.items.forEach(function(item){
+      $scope.shoppingCart.items.forEach(function(stockItem){
+        if (item == stockItem) { item['numberInCart'] = item['numberInCart'] + 1 || 1 };
+      });
+    });
+  }
+
+  function refreshNumberInCart(){
+    $scope.shoppingCart.items.forEach(function(item){
+      item['numberInCart'] = null;
     });
   }
 }]);

@@ -3,39 +3,55 @@
   <head>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers/RetailController.js"></script>
     <script src="js/factories/ItemLoggerFactory.js"></script>
     <script src="js/factories/VoucherFactory.js"></script>
     <script src="js/services/GetStockService.js"></script>
     <script src="js/factories/ItemFactory.js"></script>
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Retail Tech Test</title>
   </head>
   <body ng-controller="RetailController">
     <div id="cartItems" ng-hide="isCartEmpty()">
-      <h3>Cart:</h3>
-      <ul ng-repeat="item in cartDisplay.items track by $index">
-        <li class="item">
-          <span class="item-name">Product name: {{item.name}}</span>
-          <span class="item-price">Price: £{{item.price}}</span>
-          <button class="remove-from-cart" ng-click="removeProductFromCart(item)">Remove from cart</button>
+      <h3>Shopping Cart:</h3>
+      <ul class="list-group" ng-repeat="item in cartDisplay.items track by $index">
+        <li class="list-group-item">
+          <div class="item">
+            <span class="item-name">Product name: {{item.name}}</span>
+            <span class="item-price">Price: £{{item.price}}</span>
+            <span class="tag tag-default tag-pill pull-xs-right">x{{item.numberInCart}}</span>
+            <button class="btn btn-default" name="remove-from-cart" ng-click="removeProductFromCart(item)">Remove from cart</button>
+          </div>
         </li>
       </ul>
-      <div id="voucher" ng-hide="voucherApplied()">
-        <input id="voucher-input" type="text" placeholder="Enter voucher here" ng-model="voucherCode"></input>
-        <button id="voucher-submit" ng-click="applyVoucher(voucherCode)">Add Voucher</button>
-      </div>
+      <form class="form-inline">
+        <div id="voucher" ng-hide="voucherApplied()"  class="form-group">
+          <input id="voucher-input" class="form-control" type="text" placeholder="Enter voucher here" ng-model="voucherCode"></input>
+          <button class="btn btn-default" id="voucher-submit" ng-click="applyVoucher(voucherCode)">Add Voucher</button>
+        </div>
+        <div id="voucher" ng-show="voucherApplied()"  class="form-group">
+          <input class="form-control" id="disabledInput" type="text" placeholder="voucherCode" ng-model="voucherCode" disabled></input>
+          <button class="btn btn-default" disabled="disabled">Add Voucher</button>
+        </div>
+      </form>
       <div id="total-price">Total Price: £{{shoppingCartTotal}}</div>
       <span id="voucher-message">{{voucherMessage}}</span>
     </div>
     <div id="stockItems">
-      <h3>Stock:</h3>
-      <ul ng-repeat="item in stockDisplay.items">
-        <li class="item">
-          <div class="no-stock-{{item.no_stock}}">
-            <span class="item-name">Product name: {{item.name}}</span>
-            <span class="item-price">Price: £{{item.price}}</span>
-            <button class="add-to-cart" ng-click="addProductToCart(item)" ng-hide="item.no_stock">Add to cart</button>
+      <h3>Select items to add from below:</h3>
+      <ul ng-repeat="item in stockDisplay.items" class="list-group">
+        <li class="list-group-item" ng-class="{'list-group-item disabled': item.no_stock}">
+          <div class="item">
+            <div class="no-stock-{{item.no_stock}}">
+              <span class="item-name">Product name: {{item.name}}</span>
+              <span class="item-category">Category: {{item.category}}</span>
+              <span class="item-price">Price: £{{item.price}}</span>
+              <button class="btn btn-default" name="add-to-cart" ng-click="addProductToCart(item)" ng-hide="item.no_stock">Add to cart</button>
+            </div>
           </div>
         </li>
       </ul>

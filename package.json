@@ -4,8 +4,12 @@
   "description": "Tech test",
   "main": "index.js",
   "scripts": {
-    "start": "cd frontend && ../node_modules/http-server/bin/http-server",
-    "webdriver-manager": "./node_modules/protractor/bin/webdriver-manager"
+    "start-frontend": "cd frontend && ../node_modules/http-server/bin/http-server",
+    "start-backend": "node backend/server.js",
+    "webdriver-manager": "./node_modules/protractor/bin/webdriver-manager",
+    "test-backend": "mocha test/backend",
+    "test-integration": "protractor test/protractor.conf.js",
+    "test-frontend": "karma start test/karma.conf.js"
   },
   "author": "eripheebs",
   "license": "ISC",
