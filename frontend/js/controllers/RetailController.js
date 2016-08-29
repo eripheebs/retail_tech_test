@@ -49,6 +49,10 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
     addItems(items, $scope.stock);
     updateInformation();
   }
+  
+  function concatArguments(args){
+    return [].concat.apply([], args);
+  }
 
   function addItems(items, itemLogger){
     itemLogger.addItems(items);
@@ -59,7 +63,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
   }
 
   function deleteNonLastItems(args){
-    var items = [].concat.apply([], arguments);
+    var items = concatArguments(arguments);
     items.forEach(function(item){
       if (!isOutOfStock(item)){ deleteItems(item, $scope.stock) }
     });
@@ -136,7 +140,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
   }
 
   function checkStock(items){
-    var checkTheseItems = [].concat.apply([], arguments);
+    var checkTheseItems = concatArguments(arguments);
     checkTheseItems.forEach(function(item){
       if (noStock(item)) { throw 'You cannot add out of stock item' };
     });
@@ -147,7 +151,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
   }
 
   function checkLastItem(items){
-    var checkTheseItems = [].concat.apply([], arguments);
+    var checkTheseItems = concatArguments(arguments);
     checkTheseItems.forEach(function(item){
       if (islastItem(item, $scope.stock.items)) { logOutOfStockItem(item) }
     });
@@ -170,7 +174,7 @@ retailTest.controller('RetailController', ['$scope', 'ItemLoggerFactory', 'Vouch
   }
 
   function reverseOutOfStockLabel(items){
-    var removeTheseItems = [].concat.apply([], arguments);
+    var removeTheseItems = concatArguments(arguments);
     removeTheseItems.forEach(function(item){
       if (isOutOfStock(item)){
         item['no_stock'] = false;
