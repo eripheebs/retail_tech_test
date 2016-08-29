@@ -1,7 +1,7 @@
 #Retail Tech Test
 ####Sections:
 1. How to run the app: [here](#how-to-run-the-app).
-2. File Structure: [here](#files-structure).
+2. File Structure: [here](#file-structure).
 2. Explanation of my approach: [here](#explanation-of-my-approach).
 
 ## How to run the app:
