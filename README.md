@@ -51,11 +51,12 @@ $ npm run start-backend
 ```
 - In a different console:
 ```
+$ npm run webdriver-manager update
 $ npm run webdriver-manager start
 ```
 - In a different console:
 ```
-$ npm run test-integraton
+$ npm run test-integration
 ```
 
 -(The voucher codes are: FIVE, TEN, FIFTEEN)
