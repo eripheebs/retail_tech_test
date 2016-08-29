@@ -47,6 +47,10 @@ $ npm run start-frontend
 ```
 - In a different console:
 ```
+$ npm run start-backend
+```
+- In a different console:
+```
 $ npm run webdriver-manager start
 ```
 - In a different console:
