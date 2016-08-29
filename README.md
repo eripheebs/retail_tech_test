@@ -1,10 +1,10 @@
 #Retail Tech Test
 ####Sections:
-1. How to run the app: [here](#how).
-2. File Structure: [here](#filestructure).
-2. Explanation of my approach: [here](#explanation).
+1. How to run the app: [here](#how-to-run-the-app).
+2. File Structure: [here](#files-tructure).
+2. Explanation of my approach: [here](#explanation-of-my-approach).
 
-## <a id=“how”>How</a> to run the app:
+## How to run the app:
 Clone it:
 ```
 $ git clone https://github.com/eripheebs/retail_tech_test.git
@@ -56,7 +56,7 @@ $ npm run test-integraton
 
 -(The voucher codes are: FIVE, TEN, FIFTEEN)
 
-## <a id=“filestructure”>File</a> structure:
+## File structure:
 ```
 .
 +-- backend
@@ -99,11 +99,11 @@ $ npm run test-integraton
 +-- README.md
 ```
 
-## <a id=“explanation”>Explanation</a> of my approach
+## Explanation of my approach
 
 - I decided to build a MEAN stack app because I thought the majority of the user stories would be well-addressed with an AngularJS frontend which deals with the shopping cart. So I began by stubbing out the backend API which I built towards the end.
 - I built everything test-first, using karma for the frontend unit testing, then protractor for integration testing, and mocha for the backend.
-- Because this is a tech test, I tried to balance keeping things clear while also trying to show techniques I have learned from e.g. makers academy. For example:
+- Because this is a tech test, I tried to balance keeping things clear while also trying to show techniques I have learned (from e.g. makers academy or my favourite JS learning resource secrets of the javascript ninja). For example:
 1. We were taught to try make our apps easily extendable/modifiable and to try make methods easy to reuse around the app. In this app, for example, instead of making an "addItem" method that could only push a single item into an array, I wrote a method that could accept several different kinds of arguments e.g. (addItems(item) or addItems(item1, item2...), or addItems([item1, item2])), as shown below:
 ```
 addItems: function(items){
